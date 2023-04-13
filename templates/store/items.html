@@ -16,6 +16,21 @@
     <main>
         <h1>Интенет-магазин "Дуняша"</h1>
         <h3>Добро пожаловать в интернет-магазин "Дуняша"</h3>
+        <div class="items">
+        {% load static %}
+            {% for item in items.all %}
+            <div class="item">
+                <p>{{ item.name }}</p>
+                <img src="media/{{ item.photo }}" alt="{{ item.name }}"/>
+                <p>{{ item.price }} руб.</p>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input name="item_id" type="hidden" value="{{ item.id }}">
+                    <button type="submit">Добавить в корзину</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
     </main>
     <footer>
         <hr>
