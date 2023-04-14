@@ -9,10 +9,18 @@ from . import forms
 class CartView(generic.ListView):
     model = models.Cart
     template_name = "store/cart.html"
-    context_object_name = "cart"
+    context_object_name = "carts"
 
+    def post(self, request, *args, **kwargs):
+        order_id = request.POST.get("order_id")
+        user_id = request.user.id
+        order = models.Orders.objects.filter(id=order_id, client_id=user_id)
+        if order.count() == 1:
+            order = order.get()
+            order.complete_order = True
+            order.save()
+        return self.get(request)
     
-
 
 class ItemsView(generic.ListView):
     model = models.Product
@@ -28,12 +36,14 @@ class ItemsView(generic.ListView):
             order = models.Orders.objects.create(client_id=user_id)
             order.save()
             cart = models.Cart.objects.create(order_id=order.id)
-            cart.products.add(product)
+            product_to_cart = models.ToCart(product=product, product_cart=cart)
+            product_to_cart.save()
             cart.summ = product.price
             cart.save()
         else:
             cart = models.Cart.objects.filter(order_id=incomplete_orders.get().id).get()
-            cart.products.add(product)
+            product_to_cart = models.ToCart(product=product, product_cart=cart)
+            product_to_cart.save()
             cart.summ += product.price
             cart.save()
         return self.get(request)

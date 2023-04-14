@@ -28,9 +28,14 @@ class Orders(models.Model):
         return f"{self.client}"
 
 
+class ToCart(models.Model):
+    product = models.ForeignKey("Product", on_delete=models.CASCADE)
+    product_cart = models.ForeignKey("Cart", on_delete=models.CASCADE)
+
+
 class Cart(models.Model):
     order = models.ForeignKey("Orders", on_delete=models.CASCADE, related_name="cart_orders", verbose_name="Заказ")
-    products = models.ManyToManyField("Product", blank=True, related_name="products", verbose_name="Продукты")
+    products = models.ManyToManyField("Product", blank=True, through="ToCart", related_name="products", verbose_name="Продукты")
     summ = models.IntegerField(blank=True, null=True, verbose_name="Цена заказа")
 
     def __str__(self):

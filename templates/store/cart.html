@@ -17,21 +17,22 @@
         <h1>Интенет-магазин "Дуняша"</h1>
         <h3>Добро пожаловать в интернет-магазин "Дуняша"</h3>
         <div class="cart">
-            <table>
-                <thead>
-                    <tr>
-                        <th colspan="2"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Товары</td>
-                        <td>Цена</td>
-                    </tr>
-                    <hr>
-                    {% for item in cart %}
-                        {% if item.order.complete_order == False and item.order.client.id == user.id %}
-                            {% for product in item.products.all %}
+        {% if user.is_authenticated %}
+            {% for cart in carts %}
+                {% if cart.order.complete_order == False and cart.order.client.id == user.id %}
+                    <table>
+                        <thead>
+                        <tr>
+                            <th colspan="2"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Товары</td>
+                                <td>Цена</td>
+                            </tr>
+                            <hr>
+                            {% for product in cart.products.all %}
                                 <tr>
                                     <td>{{ product.name }}</td>
                                     <td>{{ product.price }} руб</td>
@@ -39,12 +40,18 @@
                             {% endfor %}
                             <tr>
                                 <td>Сумма</td>
-                                <td>{{ item.summ }} руб</td>
+                                <td>{{ cart.summ }} руб</td>
                             </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <input type="hidden" name="order_id" value="{{ cart.order.id }}">
+                        <button type="submit">Заказать</button>
+                    </form>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
         </div>
     </main>
     <footer>

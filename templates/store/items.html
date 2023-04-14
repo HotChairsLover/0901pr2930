@@ -17,7 +17,6 @@
         <h1>Интенет-магазин "Дуняша"</h1>
         <h3>Добро пожаловать в интернет-магазин "Дуняша"</h3>
         <div class="items">
-        {% load static %}
             {% for item in items.all %}
             <div class="item">
                 <p>{{ item.name }}</p>
