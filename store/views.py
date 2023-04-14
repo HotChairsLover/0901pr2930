@@ -6,6 +6,14 @@ from . import models
 from . import forms
 
 
+class CartView(generic.ListView):
+    model = models.Cart
+    template_name = "store/cart.html"
+    context_object_name = "cart"
+
+    
+
+
 class ItemsView(generic.ListView):
     model = models.Product
     template_name = "store/items.html"

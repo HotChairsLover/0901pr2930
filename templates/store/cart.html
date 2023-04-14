@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Интернет-магазин "Дуняша"</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="">Главная</a>
+            <a href="">Каталог</a>
+            <a href="">Заказы</a>
+            <a href="">Корзина</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Интенет-магазин "Дуняша"</h1>
+        <h3>Добро пожаловать в интернет-магазин "Дуняша"</h3>
+        <div class="cart">
+            <table>
+                <thead>
+                    <tr>
+                        <th colspan="2"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Товары</td>
+                        <td>Цена</td>
+                    </tr>
+                    <hr>
+                    {% for item in cart %}
+                        {% if item.order.complete_order == False and item.order.client.id == user.id %}
+                            {% for product in item.products.all %}
+                                <tr>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.price }} руб</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <td>Сумма</td>
+                                <td>{{ item.summ }} руб</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer>
+        <hr>
+        <p>Сайт разработан Корнатовским Д.В., 2023</p>
+    </footer>
+</body>
+</html>
