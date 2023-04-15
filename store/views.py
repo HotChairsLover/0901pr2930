@@ -11,6 +11,7 @@ class OrdersView(generic.ListView):
     template_name = "store/orders.html"
     context_object_name = "carts"
 
+
 class CartView(generic.ListView):
     model = models.Cart
     template_name = "store/cart.html"
@@ -43,7 +44,7 @@ class CartView(generic.ListView):
         order = models.Orders.objects.filter(id=order_id, client_id=user_id)
         if order.count() == 1:
             order = order.get()
-            order.post_complete_order = True
+            order.complete_order = True
             order.save()
         return self.get(request)
 

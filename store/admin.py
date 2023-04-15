@@ -31,6 +31,11 @@ class CustomUserAdmin(UserAdmin):
 admin.site.register(models.User, CustomUserAdmin)
 
 
+@admin.register(models.ToCart)
+class ToCartAdmin(ModelAdmin):
+    pass
+
+
 @admin.register(models.Product)
 class ProductAdmin(ModelAdmin):
     pass

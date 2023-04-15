@@ -32,6 +32,9 @@ class ToCart(models.Model):
     product = models.ForeignKey("Product", on_delete=models.CASCADE)
     product_cart = models.ForeignKey("Cart", on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.product.name} in {self.product_cart.id}"
+
 
 class Cart(models.Model):
     order = models.ForeignKey("Orders", on_delete=models.CASCADE, related_name="cart_orders", verbose_name="Заказ")
