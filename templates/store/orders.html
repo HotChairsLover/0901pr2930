@@ -19,44 +19,37 @@
         <div class="cart">
         {% if user.is_authenticated %}
             {% for cart in carts %}
-                {% if cart.order.complete_order == False and cart.order.client.id == user.id %}
+                {% if cart.order.client.id == user.id %}
                     <table>
                         <thead>
                         <tr>
-                            <th colspan="3"></th>
+                            <th colspan="2"></th>
                         </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>Номер заказа</td>
                                 <td>Товары</td>
                                 <td>Цена</td>
                             </tr>
                             <hr>
+                            <tr>
+                                <td>№ {{ cart.order.id }}</td>
+                            </tr>
                             {% for product in cart.products.all %}
-                                <tr>
-                                    <td>{{ product.name }}</td>
-                                    <td>{{ product.price }} руб</td>
-                                    <td>
-                                        <form method="post" action="">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="product_id" value="{{ product.id }}">
-                                            <input type="hidden" name="cart_id" value="{{ cart.id }}">
-                                            <button type="submit">Удалить</button>
-                                        </form>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td></td>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.price }} руб</td>
+                            </tr>
                             {% endfor %}
                             <tr>
+                                <td></td>
                                 <td>Сумма</td>
                                 <td>{{ cart.summ }} руб</td>
                             </tr>
                         </tbody>
                     </table>
-                    <form method="post" action="">
-                        {% csrf_token %}
-                        <input type="hidden" name="order_id" value="{{ cart.order.id }}">
-                        <button type="submit">Заказать</button>
-                    </form>
                 {% endif %}
             {% endfor %}
         {% endif %}
